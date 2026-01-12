@@ -172,7 +172,7 @@ We welcome contributions! Please follow these steps:
 | Contact Method | Details |
 |----------------|---------|
 | 📧 Email | info@spectraai.com |
-| 📞 Phone | +1 848-206-2002 |
+| 📞 Phone | +92 329 7939147 |
 | 🌐 Website | [spectraai.com](https://spectraai.com) |
 | 📍 Address | USA (Serving clients worldwide) |
 
