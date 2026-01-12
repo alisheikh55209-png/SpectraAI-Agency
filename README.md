@@ -1,7 +1,7 @@
 # 🌟 SpectraAI Agency - Professional Web Development & AI Solutions
 
 <div align="center">
-  <img src="assets/images/logo-new.svg" alt="SpectraAI Logo" width="200" height="auto">
+  <img src="SpectraAI/assets/images/logo-new.svg" alt="SpectraAI Logo" width="200" height="auto">
 
   ![GitHub stars](https://img.shields.io/github/stars/alisheikh55209-png/SpectaAI-Webiste?style=social)
   ![GitHub forks](https://img.shields.io/github/forks/alisheikh55209-png/SpectaAI-Webiste?style=social)
