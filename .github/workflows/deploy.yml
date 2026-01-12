@@ -1,42 +1,51 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy to GitHub Pages
 
+# Trigger deployment on push to main branch (default branch)
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    branches:
+      - main  # Default branch, change if needed
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        # Checkout the repository code to access all files
+        uses: actions/checkout@v3
 
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
+      - name: Set up Node.js
+        # Setup Node.js environment for potential build processes
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: SpectraAI
+      - name: Install dependencies
+        # Install npm dependencies if package.json exists
+        run: |
+          if [ -f package.json ]; then
+            npm install
+          else
+            echo "No package.json found, skipping npm install for static site"
+          fi
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
+      - name: Build site
+        # Build the site if build script exists, otherwise use static files
+        run: |
+          if [ -f package.json ] && grep -q '"build"' package.json; then
+            npm run build  # Adjust if your build command is different
+          else
+            echo "No build script found, proceeding with static files from SpectraAI directory"
+          fi
+
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        # Deploy the website to gh-pages branch using peaceiris action
+        # Uses Personal Access Token for authentication to resolve 403 permission errors
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_PAT }}  # Personal Access Token for authentication
+          publish_dir: SpectraAI               # Directory containing the website files (SpectraAI for static site)
+          user_name: 'GitHub Actions Bot'      # Commit author name for deployment commits
+          user_email: 'actions@github.com'     # Commit author email for deployment commits
+          keep_files: true                     # Keep existing files in gh-pages branch
